@@ -1,0 +1,164 @@
+---
+layout: post
+title: Getting started with Graphviz
+subtitle: Diagramming with Emacs, graphviz and org-babel
+categories: emacs
+---
+
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1">Configuration</h2>
+<div class="outline-text-2" id="text-1">
+
+
+<p>
+First, Install graphviz using (on Ubuntu 11.10)
+</p>
+
+
+<pre class="src src-sh">sudo apt-get install graphviz
+</pre>
+
+
+<p>
+Next, Download planetUML from <a href="http://plantuml.sourceforge.net/download.html">http://plantuml.sourceforge.net/download.html</a>
+Save the .jar file into your favourite apps directory, e.g. ~/apps
+</p>
+<p>
+Finally, setup .emacs file using the instructions given <a href="http://doc.norang.ca/org-mode.html#OrgBabel">here</a>.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2">Hello World</h2>
+<div class="outline-text-2" id="text-2">
+
+
+<p>
+Enter the following into an org-mode buffer and then publish (C-c C-e)
+</p>
+
+
+
+<pre class="example">#+begin_src dot :file helloworld.png :cmdline -Kdot -Tpng
+digraph test123 {
+   a [label="hello"];
+   b [label="world"];
+   a -&gt; b;
+}
+#+end_src
+</pre>
+
+
+<p>
+Should generate a file helloworld.png that looks like this:
+</p>
+
+
+<p>
+<img src="../media/dia/example1.png"  alt="../media/dia/example1.png" />
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3">Nodes - shapes, labels and colours</h2>
+<div class="outline-text-2" id="text-3">
+
+
+<p>
+There are a number of <a href="http://www.graphviz.org/content/node-shapes">pre-defined shapes</a> - box, circle, rectangle, etc.
+To change a node shape, simple enter shape="type" in the node [attribute] list,
+so for example:
+</p>
+
+
+<pre class="example">#+begin_src dot :file helloworld.png :cmdline -Kdot -Tpng
+digraph test123 {
+   config [label="config", shape="tab"];
+   source [label="source", shape="folder"];
+   jekyll [label="Jekyll", shape="oval"];
+   site [label="site", shape="folder"];
+   config -&gt; jekyll;
+   source -&gt; jekyll;
+   jekyll -&gt; site;
+}
+#+end_src
+</pre>
+
+
+<p>
+Which will produce this:
+</p>
+
+
+<p>
+<img src="../media/dia/example2.png"  alt="../media/dia/example2.png" />
+</p>
+<p>
+Other useful attributes include style=filled fillcolor=value (Red, Yellow,..)
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4">Arrows and Connectors</h2>
+<div class="outline-text-2" id="text-4">
+
+
+<p>
+The type of edges in a graph are set by the graph type - directed
+(digraph) graphs have edges that have arrows, and undirected (graph)
+have edges that do not have arrows.
+</p>
+<p>
+The examples shown above are both digraph - directed graphs - so have
+arrows by default on the edges (which are defined in the source with
+-&gt;). Undirected graphs have edges that are defined in source with --
+instead of -&gt;
+</p>
+<p>
+By default, directed graphs have edges with arrow-heads on the 'right'
+side of the edge.
+</p>
+<p>
+There are a number of <a href="http://www.graphviz.org/content/arrow-shapes">different arrow types</a> that can be defined by
+by using the arrowhead and arrowtail attributes along with the dir attribute.
+</p>
+<p>
+dir = 'forward' | 'back'  | 'both' | 'none'
+</p>
+<p>
+For example, the following code:
+</p>
+
+
+
+<pre class="example">#+Begin_src dot :file ../media/dia/example3.png :cmdline -Kdot -Tpng
+digraph example3 {
+   candidate [label="Candidate", shape="rectangle"];
+   reviewer [label="Reviewer", shape="rectangle"];
+   appraisal [label="Appraisal", shape="rectangle"];
+   report [label="Report", shape="rectangle"];
+   candidate -&gt; reviewer [label="invites", arrowhead="crow"]
+   candidate -&gt; appraisal [label="performs", dir="both", arrowhead="crow", arrowtail="crow"]
+   appraisal -&gt; report [label="generates", arrowhead="none"]
+}
+#+end_src
+</pre>
+
+
+<p>
+Produces the following diagram:
+</p>
+
+
+<p>
+<img src="../media/dia/example3.png"  alt="../media/dia/example3.png" />
+</p>
+</div>
+</div>

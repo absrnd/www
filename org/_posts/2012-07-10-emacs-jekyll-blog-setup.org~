@@ -1,0 +1,89 @@
+#+BEGIN_HTML
+---
+layout: post
+title: Create a website with Emacs and Jekyll
+subtitle: A static website based on Mobile jQuery
+excerpt: Managing a website using SVN, Emacs and Jekyll.
+---
+#+END_HTML
+
+* Why create a static website?
+
+After years of creating CMS website for other people, I decided that
+this site should be different. A database and 20+ Mb of server-side
+code just seems excessive for a scale of site that I ever expect to
+create. Plus, I am a tinkerer - I want to edit the html,
+write the javascript, tweak the css. I spend my working life in Emacs,
+so the question is.. what is the most flexible way that I can create a
+website that allows me the maximum amount of flexibility while
+providing sufficient templating and modularity to avoid the spagetti
+code nightmare that every flat-file static website turned into in the
+bad old days?
+
+Once I found out about [[https://github.com/mojombo/jekyll/][Jekyll]] - the static website generator used for
+GitHub pages - the answer was clear.. Use Emacs org-mode to
+[[http://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html][publish
+html files]], then Jekyll to process the template/markdown and create
+the site.
+
+* Create a directory structure
+
+I have create a direcotry in my home directory called www. In this
+directory, I have a sub-dir for each project (e.g. ~/www/project1
+~/www/project2 etc.). Inside each project direcory you need two
+directories - one for the .org files and another to publish the .html
+files into. 
+
+In Emacs, you will edit files in the project/org directory,
+publish html files to project/html and also run Jekyll in the
+this directory.
+
+My directory structure for this site is shown below: 
+
+#+BEGIN_SRC sh
+www
+└── absrnd
+    ├── html
+    │   ├── _includes
+    │   ├── _layouts
+    │   ├── media
+    │   │   └── css
+    │   ├── _posts
+    │   └── _site
+    │       ├── blog
+    │       └── media
+    │           └── css
+    └── org
+        ├── media
+        │   └── css
+        └── _posts
+#+END_SRC
+
+* Emacs org-mode publishing
+
+** How to publish a project as HTML
+
+Org-Mode can publish a project in many different formats, including
+HTML. To publish, use 
+
+M-x org-publish <project>
+
+Or, when editing an org-mode file, use
+
+C-c C-e X <project>
+
+** org-mode Babel code highlighting
+
+
+** Front Matter
+
+
+* SVN file-structure and autoprops
+
+* Jekyll install and configuration
+
+* Mobile jQuery templates
+
+* Workflow
+
+* What next?

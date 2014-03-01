@@ -1,0 +1,69 @@
+#+BEGIN_HTML
+---
+layout: post
+title: Getting started with Subversion
+subtitle: The minimum you need to know
+excerpt: Using svn from the command line
+categories: svn
+---
+#+END_HTML
+
+[[http://subversion.apache.org/][Subversion]] is a wonderful tool for Version Control, but the learning
+curve can be steep, so here is what I consider the minimum number of
+command that you need to get started with SVN. All 4 of them.
+
+* Creating a repository
+
+First off, create a repository using the svnadmin command:
+#+BEGIN_SRC sh
+svnadmin create /path/to/repo
+#+END_SRC
+
+* First-time file import
+
+If you have a directory tree of files that you want to get into the
+repository to get started with, use svn import:
+#+BEGIN_SRC sh
+cd /path/to/source
+svn import * file:///path/to/repo
+#+END_SRC
+
+You then need to check-out the repository that you have just created
+to create a working copy.
+#+BEGIN_SRC sh
+mkdir ~/work
+cd ~/work
+svn co file:///path/to/repo
+#+END_SRC
+
+* Add multiple files
+
+If you have added several files to your working copy and want to add
+them all to the repository, use the following command (from the root
+of the working copy directory)
+#+BEGIN_SRC sh
+svn add * --force
+#+END_SRC
+
+Note that this will not check the files into the repository, only note
+that the new files need added.
+
+* Commit files into the repository
+
+To commit any changes to the repository, use:
+#+BEGIN_SRC sh
+svn ci
+#+END_SRC
+
+* Autoprop and keyword substitution
+
+If you want to use keyword
+expansion then you
+will need to edit the ~/.subversion/config file and switch autoprops
+on and also edit the svn:keyword options for the files you need.
+
+You will also need to set the keyword property using e.g.
+#+BEGIN_SRC sh
+svn propset svn:keyword Id filename.py
+#+END_SRC
+

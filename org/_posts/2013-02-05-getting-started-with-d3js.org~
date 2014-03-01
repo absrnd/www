@@ -1,0 +1,10 @@
+#+BEGIN_HTML
+---
+layout: d3experiment
+title: Getting Started with D3.js
+subtitle: Bubble chart visualization
+excerpt: How to get started with D3.js javascript library
+categories: D3 javascrpt vizualisation
+---
+#+END_HTML
+
