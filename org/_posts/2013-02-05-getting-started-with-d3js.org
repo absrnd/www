@@ -1,12 +1,9 @@
-#+BEGIN_HTML
----
-layout: d3experiment
-title: Getting Started with D3.js
-subtitle: Data visualization with javascript
-excerpt: Interactive and animated data 
-categories: d3js
----
-#+END_HTML
+#+layout: d3experiment
+#+title: Getting Started with D3.js
+#+subtitle: Data visualization with javascript
+#+excerpt: Interactive and animated data 
+#+categories: d3js
+#+SETUPFILE: ~/www/org-html-themes/setup/theme-readtheorg.setup
 
 * Data visualization using D3.js
 

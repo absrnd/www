@@ -1,12 +1,8 @@
-#+BEGIN_HTML
----
-layout: post
-title: Create a website with Emacs and Jekyll
-subtitle: A static website based on Mobile jQuery
-excerpt: Managing a website using Org-Mode and Liquid templating
-categories: jekyll emacs
----
-#+END_HTML
+#+title: Create a website with Emacs and Jekyll
+#+subtitle: A static website based on Mobile jQuery
+#+excerpt: Managing a website using Org-Mode and Liquid templating
+#+categories: jekyll emacs
+#+SETUPFILE: ~/www/org-html-themes/setup/theme-readtheorg.setup
 
 * Why create a static website?
 
@@ -23,8 +19,7 @@ bad old days?
 
 Once I found out about [[https://github.com/mojombo/jekyll/][Jekyll]] - the static website generator used for
 GitHub pages - the answer was clear.. Use Emacs org-mode to
-[[http://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html][publish
-html files]], then Jekyll to process the template/markdown and create
+[[http://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html][publish html files]], then Jekyll to process the template/markdown and create
 the site.
 
 * Create a directory structure
@@ -150,17 +145,6 @@ subtitle: A static website based on Mobile jQuery
 excerpt: Managing a website using SVN, Emacs and Jekyll.
 ---
 #+END_HTML
-
-* Why create a static website?
-
-After years of blah blah..
-#+END_EXAMPLE
-
-The layout parameter controls which template is used to render the
-page by Jekyll. The templates are stored in the \_layouts directory.
-
-In your layout template (e.g. post.html) put the html that is used to
-create the page, along with [[http://liquidmarkup.org/][Ruby Liquid Templating]].
 
 * Mobile jQuery templates
 

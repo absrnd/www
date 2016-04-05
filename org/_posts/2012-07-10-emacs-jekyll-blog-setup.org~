@@ -1,11 +1,8 @@
-#+BEGIN_HTML
----
-layout: post
-title: Create a website with Emacs and Jekyll
-subtitle: A static website based on Mobile jQuery
-excerpt: Managing a website using SVN, Emacs and Jekyll.
----
-#+END_HTML
+#+title: Create a website with Emacs and Jekyll
+#+subtitle: A static website based on Mobile jQuery
+#+excerpt: Managing a website using Org-Mode and Liquid templating
+#+categories: jekyll emacs
+#+SETUPFILE: ~/www/org-html-themes/setup/theme-readtheorg.setup
 
 * Why create a static website?
 
@@ -59,7 +56,51 @@ www
         └── _posts
 #+END_SRC
 
+The two main directories for creating .org blog files are the 
+www/project/org directory (e.g. create an index.org file here) and
+the www/project/posts directory (where you create filenames in the
+format YYYY-MM-DD-blog-title.org)
+
 * Emacs org-mode publishing
+
+The easiest way of managing the site is to use org-mode project
+publishing function to publish the org directory into the html
+directory. 
+
+You will need to setup the project in your .emacs file:
+
+#+BEGIN_SRC emacs-lisp
+(setq org-publish-project-alist
+      '(
+  ("org-absrnd"
+          ;; Path to your org files.
+          :base-directory "~/www/absrnd/org/"
+          :base-extension "org"
+
+          ;; Path to your Jekyll project.
+          :publishing-directory "~/www/absrnd/html/"
+          :recursive t
+          :publishing-function org-publish-org-to-html
+          :headline-levels 4 
+          :html-extension "html"
+          :body-only t ;; Only export section between <body> </body>
+    )
+
+    ("org-static-absrnd"
+          :base-directory "~/www/absrnd/org/"
+          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|php\\|ico"
+          :publishing-directory "~/www/absrnd/html"
+          :recursive t
+          :publishing-function org-publish-attachment)
+
+    ("absrnd" :components ("org-absrnd" "org-static-absrnd"))
+))
+#+END_SRC
+
+With the config as above, publish using 
+#+BEGIN_EXAMPLE
+M-x org-publish absrnd
+#+END_EXAMPLE
 
 ** How to publish a project as HTML
 
@@ -74,16 +115,67 @@ C-c C-e X <project>
 
 ** org-mode Babel code highlighting
 
+To get [[http://orgmode.org/worg/org-contrib/babel/][syntax highlighting]] of source code in your blog, add the
+following to your .emacs file:
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "~/.emacs.d/htmlize")
+(require 'htmlize)
+(setq org-export-htmlize-output-type 'css)
+#+END_SRC
+
+You can include code snippets into your blog by using, For example:
+
+#+BEGIN_EXAMPLE
+#+BEGIN_SRC C
+function foo() { bar(); }
+#+END_SRC
+#+END_EXAMPLE
 
 ** Front Matter
 
+To link your site together with Jekyll, add Front Matter to the start
+of your .org file. For example:
 
-* SVN file-structure and autoprops
+#+BEGIN_EXAMPLE
+#+BEGIN_HTML
+---
+layout: post
+title: Create a website with Emacs and Jekyll
+subtitle: A static website based on Mobile jQuery
+excerpt: Managing a website using SVN, Emacs and Jekyll.
+---
+#+END_HTML
 
-* Jekyll install and configuration
+* Why create a static website?
+
+After years of blah blah..
+#+END_EXAMPLE
+
+The layout parameter controls which template is used to render the
+page by Jekyll. The templates are stored in the \_layouts directory.
+
+In your layout template (e.g. post.html) put the html that is used to
+create the page, along with [[http://liquidmarkup.org/][Ruby Liquid Templating]].
 
 * Mobile jQuery templates
 
-* Workflow
+The documentation on the Mobile jQuery site is excellent, and I
+basically got the templates for this website up and running by reading
+the [[http://jquerymobile.com/demos/1.1.0/docs/about/getting-started.html][getting started]] page!
 
-* What next?
+* Summary
+
+This is a brief overview of how I got this site up and running, using
+a powerful tool-chain that gives me the flexibility to control every
+aspect of the site layout and content, version control, templating and
+produce a static website that is as fast as possible on my shoe-string
+webserver!
+
+Next, I plan to add diagram creation and publishing..
+
+* Useful links
+
+- [[http://orgmode.org/worg/org-tutorials/org-jekyll.html][Using org to Blog with Jekyll]]
+- [[https://github.com/mojombo/jekyll/wiki/Configuration][Jekyll configuration parameters]]
+- [[https://github.com/mojombo/jekyll/wiki/Template-Data][Jekyll template variables]]

@@ -7,45 +7,122 @@ categories: emacs
 ---
 #+END_HTML
 
-<setup graphviz dot in .emacs for org-babel>
+* Configuration
 
-#+begin_src dot :file ../media/dia/example.png :cmdline -Kdot -Tpng
-digraph G {
-  size="8,6"
-  ratio=expand
-  edge [dir=both]
-  plcnet [shape=box, label="PLC Network"]
-  subgraph cluster_wrapline {
-    label="Wrapline Control System"
-    color=purple
-    subgraph {
-    rank=same
-    exec
-    sharedmem [style=filled, fillcolor=lightgrey, shape=box]
-    }
-    edge[style=dotted, dir=none]
-    exec -> opserver
-    exec -> db
-    plc -> exec
-    edge [style=line, dir=both]
-    exec -> sharedmem
-    sharedmem -> db
-    plc -> sharedmem
-    sharedmem -> opserver
-  }
-  plcnet -> plc [constraint=false]
-  millwide [shape=box, label="Millwide System"]
-  db -> millwide
+First, Install graphviz using (on Ubuntu 11.10)
+#+BEGIN_SRC sh
+sudo apt-get install graphviz
+#+END_SRC
 
-  subgraph cluster_opclients {
-    color=blue
-    label="Operator Clients"
-    rankdir=LR
-    labelloc=b
-    node[label=client]
-    opserver -> client1
-    opserver -> client2
-    opserver -> client3
-  }
+Next, Download planetUML from [[http://plantuml.sourceforge.net/download.html][http://plantuml.sourceforge.net/download.html]]
+Save the .jar file into your favourite apps directory, e.g. ~/apps
+
+Finally, setup .emacs file using the instructions given [[http://doc.norang.ca/org-mode.html#OrgBabel][here]].
+
+* Hello World
+
+Enter the following into an org-mode buffer and then publish (C-c C-e)
+
+#+BEGIN_EXAMPLE
+#+begin_src dot :file helloworld.png :cmdline -Kdot -Tpng
+digraph test123 {
+   a [label="hello"];
+   b [label="world"];
+   a -> b;
+}
+#+end_src
+#+END_EXAMPLE
+
+Should generate a file helloworld.png that looks like this:
+
+#+begin_src dot :file ../media/dia/example1.png :cmdline -Kdot -Tpng
+digraph test123 {
+   a [label="hello"];
+   b [label="world"];
+   a -> b;
+}
+#+end_src
+
+* Nodes - shapes, labels and colours
+
+There are a number of [[http://www.graphviz.org/content/node-shapes][pre-defined shapes]] - box, circle, rectangle, etc.
+To change a node shape, simple enter shape="type" in the node [attribute] list,
+so for example:
+#+BEGIN_EXAMPLE
+#+begin_src dot :file helloworld.png :cmdline -Kdot -Tpng
+digraph test123 {
+   config [label="config", shape="tab"];
+   source [label="source", shape="folder"];
+   jekyll [label="Jekyll", shape="oval"];
+   site [label="site", shape="folder"];
+   config -> jekyll;
+   source -> jekyll;
+   jekyll -> site;
+}
+#+end_src
+#+END_EXAMPLE
+
+Which will produce this:
+
+#+Begin_src dot :file ../media/dia/example2.png :cmdline -Kdot -Tpng
+digraph example2 {
+   config [label="config", shape="tab"];
+   source [label="source", shape="folder"];
+   jekyll [label="Jekyll", shape="oval"];
+   site [label="site", shape="folder"];
+   config -> jekyll;
+   source -> jekyll;
+   jekyll -> site;
+}
+#+end_src
+
+Other useful attributes include style=filled fillcolor=value (Red, Yellow,..)
+
+* Arrows and Connectors
+
+The type of edges in a graph are set by the graph type - directed
+(digraph) graphs have edges that have arrows, and undirected (graph)
+have edges that do not have arrows.
+
+The examples shown above are both digraph - directed graphs - so have
+arrows by default on the edges (which are defined in the source with
+->). Undirected graphs have edges that are defined in source with --
+instead of ->
+
+By default, directed graphs have edges with arrow-heads on the 'right'
+side of the edge.
+
+There are a number of [[http://www.graphviz.org/content/arrow-shapes][different arrow types]] that can be defined by
+by using the arrowhead and arrowtail attributes along with the dir attribute.
+
+dir = 'forward' | 'back'  | 'both' | 'none'
+
+For example, the following code:
+
+#+begin_example
+#+Begin_src dot :file ../media/dia/example3.png :cmdline -Kdot -Tpng
+digraph example3 {
+   candidate [label="Candidate", shape="rectangle"];
+   reviewer [label="Reviewer", shape="rectangle"];
+   appraisal [label="Appraisal", shape="rectangle"];
+   report [label="Report", shape="rectangle"];
+   candidate -> reviewer [label="invites", arrowhead="crow"]
+   candidate -> appraisal [label="performs", dir="both", arrowhead="crow", arrowtail="crow"]
+   appraisal -> report [label="generates", arrowhead="none"]
+}
+#+end_src
+#+end_example
+
+Produces the following diagram:
+
+#+Begin_src dot :file ../media/dia/example3.png :cmdline -Kdot -Tpng
+digraph example3 {
+   candidate [label="Candidate", shape="rectangle"];
+   reviewer [label="Reviewer", shape="rectangle"];
+   appraisal [label="Appraisal", shape="rectangle"];
+   report [label="Report", shape="rectangle"];
+   candidate -> reviewer [label="invites", arrowhead="crow"]
+   candidate -> appraisal [label="performs", dir="both", arrowhead="crow", arrowtail="crow"]
+   appraisal -> report [label="generates", arrowhead="none"]
 }
 #+end_src

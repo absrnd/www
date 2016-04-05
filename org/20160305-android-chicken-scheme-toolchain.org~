@@ -1,0 +1,154 @@
+#+TITLE: Creating Android apps using Chicken Scheme
+
+* Objective
+
+To setup a toolchain to allow apps to be developed on a linux laptop and run/debug on Android.
+
+* Links and references
+
+** Chicken Scheme for Android
+https://github.com/chicken-mobile/android-chicken
+
+* Environment setup
+
+** Before starting
+Java SDK installed
+Android SDK installed
+Android NDK installed
+
+** Chicken Scheme installation
+
+On Ubuntu 14.04 Chicken scheme is installed using:
+#+begin_example
+sudo apt-get install chicken-bin libchicken-dev
+#+end_example
+* Create Chicken-Android cross compiler
+
+1. Create copy of android-chicken makefiles using:
+#+begin_example
+cd ~/projects/chicken/
+git clone https://github.com/chicken-mobile/android-chicken.git
+#+end_example
+2. Rename the default-config.mk file to config.mk and edit
+3. make
+
+..however gives the following error:
+
+#+begin_example
+stuart@stuart-1001PXD:~/projects/chicken/android-chicken$ make
+cd src/chicken-core; git pull
+Already up-to-date.
+mkdir -p toolchain/android-14 && \
+	/usr/local/android-ndk-r10e/build/tools/make-standalone-toolchain.sh \
+	  --platform=android-14 \
+	  --system=linux-x86_64 \
+	  --install-dir=toolchain/android-14
+WARNING: The shell running this script isn't bash.  Although we try to avoid bashism in scripts, things can happen.
+Unable to auto-config arch from toolchain 
+make: *** [toolchain/android-14/COPYING] Error 1
+#+end_example
+
+Web search found this SO article which suggests adding a --toolchain= option.
+http://stackoverflow.com/questions/29444079/unable-to-auto-config-arch-from-toolchain
+However, the error message suggests that the build script is trying to auto-config the
+architecture (and I'm guessing thats why the toolchain option is failing)
+
+** Theory 1 - check Android NDK and SDK have same platform as defined in config.mk
+
+The config.mk file (edited from the default-config.mk file) has ANDROID_PLATFORM set to android-14.
+The Android NDK has the following platforms installed:
+
+#+begin_example
+stuart@stuart-1001PXD:/usr/local/android-ndk-r10e$ ls -l platforms
+total 56
+drwxr-xr-x 5 root root 4096 Feb  2  2015 android-12
+drwxr-xr-x 5 root root 4096 Feb  2  2015 android-13
+drwxr-xr-x 5 root root 4096 Feb  2  2015 android-14
+drwxr-xr-x 5 root root 4096 Feb  2  2015 android-15
+drwxr-xr-x 5 root root 4096 Feb  2  2015 android-16
+drwxr-xr-x 5 root root 4096 Feb  2  2015 android-17
+drwxr-xr-x 5 root root 4096 Feb  2  2015 android-18
+drwxr-xr-x 5 root root 4096 Oct 28  2013 android-19
+drwxr-xr-x 8 root root 4096 Oct  6  2014 android-21
+drwxr-xr-x 3 root root 4096 Feb  2  2015 android-3
+drwxr-xr-x 3 root root 4096 Feb  2  2015 android-4
+drwxr-xr-x 3 root root 4096 Feb  2  2015 android-5
+drwxr-xr-x 3 root root 4096 Feb  2  2015 android-8
+drwxr-xr-x 5 root root 4096 Feb  2  2015 android-9
+#+end_example
+
+Where the Android SDK has the following platforms:
+
+#+begin_example
+stuart@stuart-1001PXD:/usr/local/android-sdk-linux$ ls -l platforms
+total 4
+drwxrwxr-x 6 stuart stuart 4096 Mar  3 15:31 android-23
+#+end_example
+
+So.. config specifies android-14 but that is not installed in the SDK. Install using the android command
+to run the Android SDK Manager..
+..only to discover that API-14 is Android 4.0 which is OBSOLETE!
+..So, I installed SDK API-21 (Android 5.0.1) which is the most up-to-date in the NDK
+
+However, this did not solve the problem! (although probably the right thing to do anyway)
+
+** Theory 2 - debug the Makefile
+
+Looking at the Makefile, the error is being reported from the call the the make-standalone-toolchain.sh
+script (which is part of the NDK). Examining the source, the error is caused by a TOOLCHAIN variable
+that isnt being set by a --toolchain= command line option.
+
+NOTE: That I tried this previously but it dod not work because I forgot the \ newline char!!
+
+The android-chicken Makefile does not set the toolchain option, so I added a TOOLCHAIN definition to config.mk
+(the toolchain should be in $(NDK)/toolchains/)
+#+begin_example
+TOOLCHAIN         ?= arm-linux-androideabi-4.9
+#+end_example
+
+With this TOOLCHAIN definition in config.mk and a --toolchain=$(TOOLCHAIN) added to Makefile
+toolchain/$(ANDROID_PLATFORM)/COPYING target.
+
+SUCCESS!!
+
+The make command now builds the android-chicken source.
+
+* Compile a Demo program
+
+Using the Demo program (linked from the android-chicken documentation):
+
+https://github.com/bevuta/example
+
+git clone the repo
+
+*** Install the dependent scheme modules (eggs)
+
+The first to be installed is JNI using the command
+
+#+begin_example
+android-chicken/build/host/bin/android-chicken-install jni
+#+end_example
+
+This failed with a message requiring the JAVA_HOME environment variable needing set.
+
+OOPS! No JDK installed??? Ok, follow instructions here:
+http://tecadmin.net/install-oracle-java-8-jdk-8-ubuntu-via-ppa/
+
+TL;DR
+#+begin_example
+$ sudo add-apt-repository ppa:webupd8team/java
+$ sudo apt-get update
+$ sudo apt-get install oracle-java8-installer
+$ sudo apt-get install oracle-java8-set-default
+#+end_example
+
+NOTE: that the last command doesnt set the JAVA_HOME variable for me! so added with
+
+export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+
+This fixed the egg install problem. Continue installation of eggs with 'android-chicken-install jni' command.
+
+** Create APK after NDK build
+
+See this article:
+http://blog.beuc.net/posts/Building_Android_NDK_samples/

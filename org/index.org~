@@ -1,0 +1,20 @@
+#+TITLE: (setq I (abs rnd))
+#+SETUPFILE: ~/www/org-html-themes/setup/theme-readtheorg.setup
+
+#+BEGIN_SRC c
+/**
+ * A blog about programming. mostly.
+ *
+ * $Author: stuartm $ $Date: 2012-07-10 17:59:04 +0100 (Tue, 10 Jul 2012) $ $Rev: 8 $
+ *
+ */
+#+END_SRC
+
+* Old Posts (from previous site)
+
+[[file:2012-07-10-emacs-jekyll-blog-setup.org][Create a blog with Emacs and Jekyll]]
+[[file:2012-07-11-svn-workflow.org][Get started with SVN]]
+[[file:2012-07-12-graphviz-getting-started.org][Get started with Graphviz]]
+[[file:2013-02-05-getting-started-with-d3js.org][Get started with D3JS]]
+
+

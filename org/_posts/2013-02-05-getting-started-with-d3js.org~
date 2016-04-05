@@ -2,9 +2,102 @@
 ---
 layout: d3experiment
 title: Getting Started with D3.js
-subtitle: Bubble chart visualization
-excerpt: How to get started with D3.js javascript library
-categories: D3 javascrpt vizualisation
+subtitle: Data visualization with javascript
+excerpt: Interactive and animated data 
+categories: d3js
 ---
+#+END_HTML
+
+* Data visualization using D3.js
+
+** Getting started
+
+Using the [[http://www.recursion.org/d3-for-mere-mortals/][D3 for mere mortals]] article as an on-ramp, I have setup this page to 
+include the [[http://d3js.org/][D3.js]] library from the CDN, then I have added the following HTML
+to this page:
+
+#+BEGIN_EXAMPLE
+<div id="rect-demo"></div>
+#+END_EXAMPLE
+
+Then add the following Javascript:
+
+#+BEGIN_SRC js
+var rectDemo = d3.select("#rect-demo").
+  append("svg:svg").
+  attr("width", 400).
+  attr("height", 300);
+
+rectDemo.append("svg:rect").
+  attr("x", 100).
+  attr("y", 100).
+  attr("height", 100).
+  attr("width", 200);
+#+END_SRC
+
+To produce the following output:
+
+#+BEGIN_HTML
+<div id="rect-demo"></div>
+<script>
+var rectDemo = d3.select("#rect-demo").
+  append("svg:svg").
+  attr("width", 400).
+  attr("height", 300);
+
+rectDemo.append("svg:rect").
+  attr("x", 100).
+  attr("y", 100).
+  attr("height", 100).
+  attr("width", 200);
+</script>
+#+END_HTML
+
+Ok, thats all well and fine, but lets at least get something that resembles a graph.. 
+what about a BAR GRAPH?!.. so lets display the following data:
+
+#+BEGIN_HTML
+var data = [{year: 2006, books: 54},
+            {year: 2007, books: 43},
+            {year: 2008, books: 41},
+            {year: 2009, books: 44},
+            {year: 2010, books: 35}];
+#+END_HTML
+
+Which gives us the following graph:
+
+#+BEGIN_HTML
+<div id="bar-graph-demo"></div>
+<script>
+var data = [{year: 2006, books: 54},
+            {year: 2007, books: 43},
+            {year: 2008, books: 41},
+            {year: 2009, books: 44},
+            {year: 2010, books: 35}];
+
+var barWidth = 40;
+var width = (barWidth + 10) * data.length;
+var height = 200;
+
+var x = d3.scale.linear().domain([0, data.length]).range([0, width]);
+var y = d3.scale.linear().domain([0, d3.max(data, function(datum) { return datum.books; })]).
+  rangeRound([0, height]);
+
+// add the canvas to the DOM
+var barDemo = d3.select("#bar-graph-demo").
+  append("svg:svg").
+  attr("width", width).
+  attr("height", height);
+
+barDemo.selectAll("rect").
+  data(data).
+  enter().
+  append("svg:rect").
+  attr("x", function(datum, index) { return x(index); }).
+  attr("y", function(datum) { return height - y(datum.books); }).
+  attr("height", function(datum) { return y(datum.books); }).
+  attr("width", barWidth).
+  attr("fill", "#2d578b");
+</script>
 #+END_HTML
 
