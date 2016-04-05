@@ -145,6 +145,7 @@ subtitle: A static website based on Mobile jQuery
 excerpt: Managing a website using SVN, Emacs and Jekyll.
 ---
 #+END_HTML
+#+END_EXAMPLE
 
 * Mobile jQuery templates
 
