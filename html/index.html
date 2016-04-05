@@ -1,8 +1,3 @@
----
-layout: default
-title: i = abs(rnd)
----
-
 <pre class="src src-c"><span class="org-doc">/**</span>
 <span class="org-doc"> * A blog about programming. mostly.</span>
 <span class="org-doc"> *</span>
@@ -11,3 +6,53 @@ title: i = abs(rnd)
 <span class="org-doc"> */</span>
 </pre>
 
+
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1">Old Posts (from previous site)</h2>
+<div class="outline-text-2" id="text-1">
+
+
+<p>
+<a href="./_posts/2012-07-10-emacs-jekyll-blog-setup.html">Create a blog with Emacs and Jekyll</a>
+</p>
+<p>
+<a href="./_posts/2012-07-11-svn-workflow.html">Get started with SVN</a>
+</p>
+<p>
+<a href="./_posts/2012-07-12-graphviz-getting-started.html">Get started with Graphviz</a>
+</p>
+<p>
+<a href="./_posts/2013-02-05-getting-started-with-d3js.html">Get started with D3JS</a>
+</p>
+
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2">links created by code</h2>
+<div class="outline-text-2" id="text-2">
+
+
+
+
+
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">create-links</span> ()
+  (<span class="org-keyword">let</span> ((post-list (directory-files <span class="org-string">"~/projects/www.absrnd.com/org/_posts"</span> nil <span class="org-string">"org$"</span>))
+        (result))
+    (<span class="org-keyword">dolist</span> (post post-list result)
+      (setq result (concat result
+                           (concat <span class="org-string">"[["</span>
+                                   <span class="org-string">"./_posts/"</span> post <span class="org-string">".html]"</span>
+                                   <span class="org-string">"["</span> post <span class="org-string">"]]"</span>))))))
+(create-links)
+</pre>
+
+
+<p>
+this is after the results?
+</p>
+
+</div>
+</div>
