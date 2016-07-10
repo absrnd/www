@@ -6,6 +6,7 @@ source for www.absrnd.com static site which is created using Emacs org-mode.
 The following code is defined in the .emacs file and then M-x org-publish-project
 is used to convert the org files into html (in the public_html directory).
 
+```
 (require 'ox-publish)
 ;; setup absrnd projects
 (setq org-publish-project-alist
@@ -25,4 +26,5 @@ is used to convert the org files into html (in the public_html directory).
 	 :publishing-function org-publish-attachment
 	 )
 	("absrnd" :components ("org-absrnd" "media-absrnd"))))
+```
 
