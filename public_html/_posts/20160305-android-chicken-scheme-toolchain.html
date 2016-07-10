@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- 2016-07-10 Sun 17:32 -->
+<meta  charset="utf-8">
+<meta  name="viewport" content="width=device-width, initial-scale=1">
+<title>Creating Android apps using Chicken Scheme</title>
+<meta  name="generator" content="Org-mode">
+<meta  name="author" content="Stuart">
+<link rel="stylesheet" href="../media/css/marx.min.css">
+<style type="text/css">#content {padding: 0px 40px;} nav {background: #eee;}</style>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="preamble" class="status">
+<nav>
+            <a href="#">Home</a>
+            <a href="#">Blog</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+         </nav>
+</div>
+<div id="content">
+<h1 class="title">Creating Android apps using Chicken Scheme</h1>
+
+<main id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1"><span class="section-number-2">1</span> Objective</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+To setup a toolchain to allow apps to be developed on a linux laptop and run/debug on Android.
+</p>
+</div>
+</main>
+
+<main id="outline-container-orgheadline3" class="outline-2">
+<h2 id="orgheadline3"><span class="section-number-2">2</span> Links and references</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2"><span class="section-number-3">2.1</span> Chicken Scheme for Android</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+<a href="https://github.com/chicken-mobile/android-chicken">https://github.com/chicken-mobile/android-chicken</a>
+</p>
+</div>
+</div>
+</main>
+
+<main id="outline-container-orgheadline6" class="outline-2">
+<h2 id="orgheadline6"><span class="section-number-2">3</span> Environment setup</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4"><span class="section-number-3">3.1</span> Before starting</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Java SDK installed
+Android SDK installed
+Android NDK installed
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5"><span class="section-number-3">3.2</span> Chicken Scheme installation</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+On Ubuntu 14.04 Chicken scheme is installed using:
+</p>
+<pre class="example">
+sudo apt-get install chicken-bin libchicken-dev
+</pre>
+</div>
+</div>
+</main>
+<main id="outline-container-orgheadline9" class="outline-2">
+<h2 id="orgheadline9"><span class="section-number-2">4</span> Create Chicken-Android cross compiler</h2>
+<div class="outline-text-2" id="text-4">
+<ol class="org-ol">
+<li>Create copy of android-chicken makefiles using:</li>
+</ol>
+<pre class="example">
+cd ~/projects/chicken/
+git clone https://github.com/chicken-mobile/android-chicken.git
+</pre>
+<ol class="org-ol">
+<li>Rename the default-config.mk file to config.mk and edit</li>
+<li>make</li>
+</ol>
+
+<p>
+..however gives the following error:
+</p>
+
+<pre class="example">
+stuart@stuart-1001PXD:~/projects/chicken/android-chicken$ make
+cd src/chicken-core; git pull
+Already up-to-date.
+mkdir -p toolchain/android-14 &amp;&amp; \
+	/usr/local/android-ndk-r10e/build/tools/make-standalone-toolchain.sh \
+	  --platform=android-14 \
+	  --system=linux-x86_64 \
+	  --install-dir=toolchain/android-14
+WARNING: The shell running this script isn't bash.  Although we try to avoid bashism in scripts, things can happen.
+Unable to auto-config arch from toolchain 
+make: *** [toolchain/android-14/COPYING] Error 1
+</pre>
+
+<p>
+Web search found this SO article which suggests adding a &#x2013;toolchain= option.
+<a href="http://stackoverflow.com/questions/29444079/unable-to-auto-config-arch-from-toolchain">http://stackoverflow.com/questions/29444079/unable-to-auto-config-arch-from-toolchain</a>
+However, the error message suggests that the build script is trying to auto-config the
+architecture (and I'm guessing thats why the toolchain option is failing)
+</p>
+</div>
+
+<div id="outline-container-orgheadline7" class="outline-3">
+<h3 id="orgheadline7"><span class="section-number-3">4.1</span> Theory 1 - check Android NDK and SDK have same platform as defined in config.mk</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+The config.mk file (edited from the default-config.mk file) has ANDROID<sub>PLATFORM</sub> set to android-14.
+The Android NDK has the following platforms installed:
+</p>
+
+<pre class="example">
+stuart@stuart-1001PXD:/usr/local/android-ndk-r10e$ ls -l platforms
+total 56
+drwxr-xr-x 5 root root 4096 Feb  2  2015 android-12
+drwxr-xr-x 5 root root 4096 Feb  2  2015 android-13
+drwxr-xr-x 5 root root 4096 Feb  2  2015 android-14
+drwxr-xr-x 5 root root 4096 Feb  2  2015 android-15
+drwxr-xr-x 5 root root 4096 Feb  2  2015 android-16
+drwxr-xr-x 5 root root 4096 Feb  2  2015 android-17
+drwxr-xr-x 5 root root 4096 Feb  2  2015 android-18
+drwxr-xr-x 5 root root 4096 Oct 28  2013 android-19
+drwxr-xr-x 8 root root 4096 Oct  6  2014 android-21
+drwxr-xr-x 3 root root 4096 Feb  2  2015 android-3
+drwxr-xr-x 3 root root 4096 Feb  2  2015 android-4
+drwxr-xr-x 3 root root 4096 Feb  2  2015 android-5
+drwxr-xr-x 3 root root 4096 Feb  2  2015 android-8
+drwxr-xr-x 5 root root 4096 Feb  2  2015 android-9
+</pre>
+
+<p>
+Where the Android SDK has the following platforms:
+</p>
+
+<pre class="example">
+stuart@stuart-1001PXD:/usr/local/android-sdk-linux$ ls -l platforms
+total 4
+drwxrwxr-x 6 stuart stuart 4096 Mar  3 15:31 android-23
+</pre>
+
+<p>
+So.. config specifies android-14 but that is not installed in the SDK. Install using the android command
+to run the Android SDK Manager..
+..only to discover that API-14 is Android 4.0 which is OBSOLETE!
+..So, I installed SDK API-21 (Android 5.0.1) which is the most up-to-date in the NDK
+</p>
+
+<p>
+However, this did not solve the problem! (although probably the right thing to do anyway)
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline8" class="outline-3">
+<h3 id="orgheadline8"><span class="section-number-3">4.2</span> Theory 2 - debug the Makefile</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+Looking at the Makefile, the error is being reported from the call the the make-standalone-toolchain.sh
+script (which is part of the NDK). Examining the source, the error is caused by a TOOLCHAIN variable
+that isnt being set by a &#x2013;toolchain= command line option.
+</p>
+
+<p>
+NOTE: That I tried this previously but it dod not work because I forgot the \ newline char!!
+</p>
+
+<p>
+The android-chicken Makefile does not set the toolchain option, so I added a TOOLCHAIN definition to config.mk
+(the toolchain should be in $(NDK)/toolchains/)
+</p>
+<pre class="example">
+TOOLCHAIN         ?= arm-linux-androideabi-4.9
+</pre>
+
+<p>
+With this TOOLCHAIN definition in config.mk and a &#x2013;toolchain=\((TOOLCHAIN) added to Makefile
+toolchain/\)(ANDROID<sub>PLATFORM</sub>)/COPYING target.
+</p>
+
+<p>
+SUCCESS!!
+</p>
+
+<p>
+The make command now builds the android-chicken source.
+</p>
+</div>
+</div>
+</main>
+
+<main id="outline-container-orgheadline12" class="outline-2">
+<h2 id="orgheadline12"><span class="section-number-2">5</span> Compile a Demo program</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Using the Demo program (linked from the android-chicken documentation):
+</p>
+
+<p>
+<a href="https://github.com/bevuta/example">https://github.com/bevuta/example</a>
+</p>
+
+<p>
+git clone the repo
+</p>
+</div>
+
+<div id="outline-container-orgheadline10" class="outline-4">
+<h4 id="orgheadline10"><span class="section-number-4">5.0.1</span> Install the dependent scheme modules (eggs)</h4>
+<div class="outline-text-4" id="text-5-0-1">
+<p>
+The first to be installed is JNI using the command
+</p>
+
+<pre class="example">
+android-chicken/build/host/bin/android-chicken-install jni
+</pre>
+
+<p>
+This failed with a message requiring the JAVA<sub>HOME</sub> environment variable needing set.
+</p>
+
+<p>
+OOPS! No JDK installed??? Ok, follow instructions here:
+<a href="http://tecadmin.net/install-oracle-java-8-jdk-8-ubuntu-via-ppa/">http://tecadmin.net/install-oracle-java-8-jdk-8-ubuntu-via-ppa/</a>
+</p>
+
+<p>
+TL;DR
+</p>
+<pre class="example">
+$ sudo add-apt-repository ppa:webupd8team/java
+$ sudo apt-get update
+$ sudo apt-get install oracle-java8-installer
+$ sudo apt-get install oracle-java8-set-default
+</pre>
+
+<p>
+NOTE: that the last command doesnt set the JAVA<sub>HOME</sub> variable for me! so added with
+</p>
+
+<p>
+export JAVA<sub>HOME</sub>=/usr/lib/jvm/java-8-oracle
+</p>
+
+<p>
+This fixed the egg install problem. Continue installation of eggs with 'android-chicken-install jni' command.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline11" class="outline-3">
+<h3 id="orgheadline11"><span class="section-number-3">5.1</span> Side-Project: Create APK after NDK build</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+To step back from the Android-Chicken head-off-wall-experience and maybe shed some light on
+the build issues, I decided to build one of the NDK Sample programs (hello-jni)
+</p>
+
+<p>
+See this article which was helpful:
+<a href="http://blog.beuc.net/posts/Building_Android_NDK_samples/">http://blog.beuc.net/posts/Building_Android_NDK_samples/</a>
+</p>
+
+<p>
+Steps:
+</p>
+
+<ol class="org-ol">
+<li>install some of the 'missing' 32-bit libraries</li>
+</ol>
+<pre class="example">
+sudo apt-get install lib32z1 lib32ncurses5 lib32bz2-1.0
+</pre>
+<ol class="org-ol">
+<li>copy the sample programs into home directory space</li>
+<li>turn the directory into a project using the command</li>
+</ol>
+<pre class="example">
+android update project --name "hello-jni" --path . --target "android-21"
+</pre>
+<ol class="org-ol">
+<li>create a debug image (avoids signing) using 'ant debug'</li>
+<li>transfer the apk file to the device using 'adb install &lt;file&gt;.apk'</li>
+</ol>
+</div>
+</div>
+</main>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Stuart</p>
+<p class="date">Created: 2016-07-10 Sun 17:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

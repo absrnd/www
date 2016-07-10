@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- 2016-07-10 Sun 17:32 -->
+<meta  charset="utf-8">
+<meta  name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting Started with D3.js</title>
+<meta  name="generator" content="Org-mode">
+<meta  name="author" content="Stuart">
+<link rel="stylesheet" href="../media/css/marx.min.css">
+<style type="text/css">#content {padding: 0px 40px;} nav {background: #eee;}</style>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+<body>
+<div id="preamble" class="status">
+<nav>
+            <a href="#">Home</a>
+            <a href="#">Blog</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+         </nav>
+</div>
+<div id="content">
+<h1 class="title">Getting Started with D3.js
+<br>
+<span class="subtitle">Data visualization with javascript</span>
+</h1>
+
+<main id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2"><span class="section-number-2">1</span> Data visualization using D3.js</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-orgheadline1" class="outline-3">
+<h3 id="orgheadline1"><span class="section-number-3">1.1</span> Getting started</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Using the <a href="http://www.recursion.org/d3-for-mere-mortals/">D3 for mere mortals</a> article as an on-ramp, I have setup this page to 
+include the <a href="http://d3js.org/">D3.js</a> library from the CDN, then I have added the following HTML
+to this page:
+</p>
+
+<pre class="example">
+&lt;div id="rect-demo"&gt;&lt;/div&gt;
+</pre>
+
+<p>
+Then add the following Javascript:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js"><span style="color: #a020f0;">var</span> <span style="color: #a0522d;">rectDemo</span> = d3.select(<span style="color: #8b2252;">"#rect-demo"</span>).
+  append(<span style="color: #8b2252;">"svg:svg"</span>).
+  attr(<span style="color: #8b2252;">"width"</span>, 400).
+  attr(<span style="color: #8b2252;">"height"</span>, 300);
+
+rectDemo.append(<span style="color: #8b2252;">"svg:rect"</span>).
+  attr(<span style="color: #8b2252;">"x"</span>, 100).
+  attr(<span style="color: #8b2252;">"y"</span>, 100).
+  attr(<span style="color: #8b2252;">"height"</span>, 100).
+  attr(<span style="color: #8b2252;">"width"</span>, 200);
+</pre>
+</div>
+
+<p>
+To produce the following output:
+</p>
+
+<div id="rect-demo"></div>
+<script>
+var rectDemo = d3.select("#rect-demo").
+  append("svg:svg").
+  attr("width", 400).
+  attr("height", 300);
+
+rectDemo.append("svg:rect").
+  attr("x", 100).
+  attr("y", 100).
+  attr("height", 100).
+  attr("width", 200);
+</script>
+
+<p>
+Ok, thats all well and fine, but lets at least get something that resembles a graph.. 
+what about a BAR GRAPH?!.. so lets display the following data:
+</p>
+
+<pre class="example">
+var data = [{year: 2006, books: 54},
+            {year: 2007, books: 43},
+            {year: 2008, books: 41},
+            {year: 2009, books: 44},
+            {year: 2010, books: 35}];
+</pre>
+
+<p>
+Which gives us the following graph:
+</p>
+
+<div id="bar-graph-demo"></div>
+<script>
+var data = [{year: 2006, books: 54},
+            {year: 2007, books: 43},
+            {year: 2008, books: 41},
+            {year: 2009, books: 44},
+            {year: 2010, books: 35}];
+
+var barWidth = 40;
+var width = (barWidth + 10) * data.length;
+var height = 200;
+
+var x = d3.scale.linear().domain([0, data.length]).range([0, width]);
+var y = d3.scale.linear().domain([0, d3.max(data, function(datum) { return datum.books; })]).
+  rangeRound([0, height]);
+
+// add the canvas to the DOM
+var barDemo = d3.select("#bar-graph-demo").
+  append("svg:svg").
+  attr("width", width).
+  attr("height", height);
+
+barDemo.selectAll("rect").
+  data(data).
+  enter().
+  append("svg:rect").
+  attr("x", function(datum, index) { return x(index); }).
+  attr("y", function(datum) { return height - y(datum.books); }).
+  attr("height", function(datum) { return y(datum.books); }).
+  attr("width", barWidth).
+  attr("fill", "#2d578b");
+</script>
+</div>
+</div>
+</main>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Stuart</p>
+<p class="date">Created: 2016-07-10 Sun 17:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

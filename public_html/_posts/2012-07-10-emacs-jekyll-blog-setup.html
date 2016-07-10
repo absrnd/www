@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- 2016-07-10 Sun 17:32 -->
+<meta  charset="utf-8">
+<meta  name="viewport" content="width=device-width, initial-scale=1">
+<title>Create a website with Emacs and Jekyll</title>
+<meta  name="generator" content="Org-mode">
+<meta  name="author" content="Stuart">
+<link rel="stylesheet" href="../media/css/marx.min.css">
+<style type="text/css">#content {padding: 0px 40px;} nav {background: #eee;}</style>
+</head>
+<body>
+<div id="preamble" class="status">
+<nav>
+            <a href="#">Home</a>
+            <a href="#">Blog</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+         </nav>
+</div>
+<div id="content">
+<h1 class="title">Create a website with Emacs and Jekyll
+<br>
+<span class="subtitle">A static website based on Mobile jQuery</span>
+</h1>
+
+<main id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1"><span class="section-number-2">1</span> Why create a static website?</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+After years of creating CMS website for other people, I decided that
+this site should be different. A database and 20+ Mb of server-side
+code just seems excessive for a scale of site that I ever expect to
+create. Plus, I am a tinkerer - I want to edit the html,
+write the javascript, tweak the css. I spend my working life in Emacs,
+so the question is.. what is the most flexible way that I can create a
+website that allows me the maximum amount of flexibility while
+providing sufficient templating and modularity to avoid the spagetti
+code nightmare that every flat-file static website turned into in the
+bad old days?
+</p>
+
+<p>
+Once I found out about <a href="https://github.com/mojombo/jekyll/">Jekyll</a> - the static website generator used for
+GitHub pages - the answer was clear.. Use Emacs org-mode to
+<a href="http://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html">publish html files</a>, then Jekyll to process the template/markdown and create
+the site.
+</p>
+</div>
+</main>
+
+<main id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2"><span class="section-number-2">2</span> Create a directory structure</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+I have create a direcotry in my home directory called www. In this
+directory, I have a sub-dir for each project (e.g. ~/www/project1
+~/www/project2 etc.). Inside each project direcory you need two
+directories - one for the .org files and another to publish the .html
+files into. 
+</p>
+
+<p>
+In Emacs, you will edit files in the project/org directory,
+publish html files to project/html and also run Jekyll in the
+this directory.
+</p>
+
+<p>
+My directory structure for this site is shown below: 
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">www
+&#9492;&#9472;&#9472; absrnd
+    &#9500;&#9472;&#9472; html
+    &#9474;&#160;&#160; &#9500;&#9472;&#9472; _includes
+    &#9474;&#160;&#160; &#9500;&#9472;&#9472; _layouts
+    &#9474;&#160;&#160; &#9500;&#9472;&#9472; media
+    &#9474;&#160;&#160; &#9474;&#160;&#160; &#9492;&#9472;&#9472; css
+    &#9474;&#160;&#160; &#9500;&#9472;&#9472; _posts
+    &#9474;&#160;&#160; &#9492;&#9472;&#9472; _site
+    &#9474;&#160;&#160;     &#9500;&#9472;&#9472; blog
+    &#9474;&#160;&#160;     &#9492;&#9472;&#9472; media
+    &#9474;&#160;&#160;         &#9492;&#9472;&#9472; css
+    &#9492;&#9472;&#9472; org
+        &#9500;&#9472;&#9472; media
+        &#9474;&#160;&#160; &#9492;&#9472;&#9472; css
+        &#9492;&#9472;&#9472; _posts
+</pre>
+</div>
+
+<p>
+The two main directories for creating .org blog files are the 
+www/project/org directory (e.g. create an index.org file here) and
+the www/project/posts directory (where you create filenames in the
+format YYYY-MM-DD-blog-title.org)
+</p>
+</div>
+</main>
+
+<main id="outline-container-orgheadline6" class="outline-2">
+<h2 id="orgheadline6"><span class="section-number-2">3</span> Emacs org-mode publishing</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+The easiest way of managing the site is to use org-mode project
+publishing function to publish the org directory into the html
+directory. 
+</p>
+
+<p>
+You will need to setup the project in your .emacs file:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #a020f0;">setq</span> org-publish-project-alist
+      '(
+  (<span style="color: #8b2252;">"org-absrnd"</span>
+          <span style="color: #b22222;">;; </span><span style="color: #b22222;">Path to your org files.</span>
+          <span style="color: #483d8b;">:base-directory</span> <span style="color: #8b2252;">"~/www/absrnd/org/"</span>
+          <span style="color: #483d8b;">:base-extension</span> <span style="color: #8b2252;">"org"</span>
+
+          <span style="color: #b22222;">;; </span><span style="color: #b22222;">Path to your Jekyll project.</span>
+          <span style="color: #483d8b;">:publishing-directory</span> <span style="color: #8b2252;">"~/www/absrnd/html/"</span>
+          <span style="color: #483d8b;">:recursive</span> t
+          <span style="color: #483d8b;">:publishing-function</span> org-publish-org-to-html
+          <span style="color: #483d8b;">:headline-levels</span> 4 
+          <span style="color: #483d8b;">:html-extension</span> <span style="color: #8b2252;">"html"</span>
+          <span style="color: #483d8b;">:body-only</span> t <span style="color: #b22222;">;; </span><span style="color: #b22222;">Only export section between &lt;body&gt; &lt;/body&gt;</span>
+    )
+
+    (<span style="color: #8b2252;">"org-static-absrnd"</span>
+          <span style="color: #483d8b;">:base-directory</span> <span style="color: #8b2252;">"~/www/absrnd/org/"</span>
+          <span style="color: #483d8b;">:base-extension</span> <span style="color: #8b2252;">"css</span><span style="color: #8b2252; font-weight: bold;">\\</span><span style="color: #8b2252; font-weight: bold;">|</span><span style="color: #8b2252;">js</span><span style="color: #8b2252; font-weight: bold;">\\</span><span style="color: #8b2252; font-weight: bold;">|</span><span style="color: #8b2252;">png</span><span style="color: #8b2252; font-weight: bold;">\\</span><span style="color: #8b2252; font-weight: bold;">|</span><span style="color: #8b2252;">jpg</span><span style="color: #8b2252; font-weight: bold;">\\</span><span style="color: #8b2252; font-weight: bold;">|</span><span style="color: #8b2252;">gif</span><span style="color: #8b2252; font-weight: bold;">\\</span><span style="color: #8b2252; font-weight: bold;">|</span><span style="color: #8b2252;">pdf</span><span style="color: #8b2252; font-weight: bold;">\\</span><span style="color: #8b2252; font-weight: bold;">|</span><span style="color: #8b2252;">mp3</span><span style="color: #8b2252; font-weight: bold;">\\</span><span style="color: #8b2252; font-weight: bold;">|</span><span style="color: #8b2252;">ogg</span><span style="color: #8b2252; font-weight: bold;">\\</span><span style="color: #8b2252; font-weight: bold;">|</span><span style="color: #8b2252;">swf</span><span style="color: #8b2252; font-weight: bold;">\\</span><span style="color: #8b2252; font-weight: bold;">|</span><span style="color: #8b2252;">php</span><span style="color: #8b2252; font-weight: bold;">\\</span><span style="color: #8b2252; font-weight: bold;">|</span><span style="color: #8b2252;">ico"</span>
+          <span style="color: #483d8b;">:publishing-directory</span> <span style="color: #8b2252;">"~/www/absrnd/html"</span>
+          <span style="color: #483d8b;">:recursive</span> t
+          <span style="color: #483d8b;">:publishing-function</span> org-publish-attachment)
+
+    (<span style="color: #8b2252;">"absrnd"</span> <span style="color: #483d8b;">:components</span> (<span style="color: #8b2252;">"org-absrnd"</span> <span style="color: #8b2252;">"org-static-absrnd"</span>))
+))
+</pre>
+</div>
+
+<p>
+With the config as above, publish using 
+</p>
+<pre class="example">
+M-x org-publish absrnd
+</pre>
+</div>
+
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3"><span class="section-number-3">3.1</span> How to publish a project as HTML</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Org-Mode can publish a project in many different formats, including
+HTML. To publish, use 
+</p>
+
+<p>
+M-x org-publish &lt;project&gt;
+</p>
+
+<p>
+Or, when editing an org-mode file, use
+</p>
+
+<p>
+C-c C-e X &lt;project&gt;
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4"><span class="section-number-3">3.2</span> org-mode Babel code highlighting</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+To get <a href="http://orgmode.org/worg/org-contrib/babel/">syntax highlighting</a> of source code in your blog, add the
+following to your .emacs file:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(add-to-list 'load-path <span style="color: #8b2252;">"~/.emacs.d/htmlize"</span>)
+(<span style="color: #a020f0;">require</span> '<span style="color: #008b8b;">htmlize</span>)
+(<span style="color: #a020f0;">setq</span> org-export-htmlize-output-type 'css)
+</pre>
+</div>
+
+<p>
+You can include code snippets into your blog by using, For example:
+</p>
+
+<pre class="example">
+#+BEGIN_SRC C
+function foo() { bar(); }
+#+END_SRC
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5"><span class="section-number-3">3.3</span> Front Matter</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+To link your site together with Jekyll, add Front Matter to the start
+of your .org file. For example:
+</p>
+
+<p>
+#+BEGIN<sub>EXAMPLE</sub>
+</p>
+---
+layout: post
+title: Create a website with Emacs and Jekyll
+subtitle: A static website based on Mobile jQuery
+excerpt: Managing a website using SVN, Emacs and Jekyll.
+---
+</div>
+</div>
+</main>
+
+<main id="outline-container-orgheadline7" class="outline-2">
+<h2 id="orgheadline7"><span class="section-number-2">4</span> Mobile jQuery templates</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+The documentation on the Mobile jQuery site is excellent, and I
+basically got the templates for this website up and running by reading
+the <a href="http://jquerymobile.com/demos/1.1.0/docs/about/getting-started.html">getting started</a> page!
+</p>
+</div>
+</main>
+
+<main id="outline-container-orgheadline8" class="outline-2">
+<h2 id="orgheadline8"><span class="section-number-2">5</span> Summary</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+This is a brief overview of how I got this site up and running, using
+a powerful tool-chain that gives me the flexibility to control every
+aspect of the site layout and content, version control, templating and
+produce a static website that is as fast as possible on my shoe-string
+webserver!
+</p>
+
+<p>
+Next, I plan to add diagram creation and publishing..
+</p>
+</div>
+</main>
+
+<main id="outline-container-orgheadline9" class="outline-2">
+<h2 id="orgheadline9"><span class="section-number-2">6</span> Useful links</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li><a href="http://orgmode.org/worg/org-tutorials/org-jekyll.html">Using org to Blog with Jekyll</a></li>
+<li><a href="https://github.com/mojombo/jekyll/wiki/Configuration">Jekyll configuration parameters</a></li>
+<li><a href="https://github.com/mojombo/jekyll/wiki/Template-Data">Jekyll template variables</a></li>
+</ul>
+</div>
+</main>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Stuart</p>
+<p class="date">Created: 2016-07-10 Sun 17:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

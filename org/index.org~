@@ -1,20 +1,37 @@
-#+TITLE: (setq I (abs rnd))
-#+SETUPFILE: ~/www/org-html-themes/setup/theme-readtheorg.setup
-
-#+BEGIN_SRC c
-/**
- * A blog about programming. mostly.
- *
- * $Author: stuartm $ $Date: 2012-07-10 17:59:04 +0100 (Tue, 10 Jul 2012) $ $Rev: 8 $
- *
- */
-#+END_SRC
+#+SETUPFILE: ~/org/org-html-themes/setup/absrnd.setup
+#+TITLE: (program (graphics data))
 
 * Old Posts (from previous site)
 
-[[file:2012-07-10-emacs-jekyll-blog-setup.org][Create a blog with Emacs and Jekyll]]
-[[file:2012-07-11-svn-workflow.org][Get started with SVN]]
-[[file:2012-07-12-graphviz-getting-started.org][Get started with Graphviz]]
-[[file:2013-02-05-getting-started-with-d3js.org][Get started with D3JS]]
+[[file:./_posts/2012-07-10-emacs-jekyll-blog-setup.org][Create a blog with Emacs and Jekyll]]
 
+[[file:./_posts/2012-07-11-svn-workflow.org][Get started with SVN]]
 
+[[file:./_posts/2012-07-12-graphviz-getting-started.org][Get started with Graphviz]]
+
+[[file:./_posts/2013-02-05-getting-started-with-d3js.org][Get started with D3JS]]
+
+* links created by code
+
+#+begin_src emacs-lisp :exports results :results value raw
+(defun create-links ()
+  (let ((post-list (directory-files "~/www/absrnd/org/_posts" nil "org$"))
+	(result))
+    (dolist (post post-list result)
+      (setq result (concat result
+			   (concat "[["
+				   "./_posts/" post ".html]"
+				   "[" post "]]"))))))
+(create-links)
+#+end_src
+
+#+RESULTS:
+: [[./_posts/2012-07-10-emacs-jekyll-blog-setup.org.html][2012-07-10-emacs-jekyll-blog-setup.org]][[./_posts/2012-07-11-svn-workflow.org.html][2012-07-11-svn-workflow.org]][[./_posts/2012-07-12-graphviz-getting-started.org.html][2012-07-12-graphviz-getting-started.org]][[./_posts/2013-02-05-getting-started-with-d3js.org.html][2013-02-05-getting-started-with-d3js.org]]
+
+this is after the results? (but where are the results?)
+
+* working notes while creating this page
+
+edit setup file to create motherplate compatable html
+
+And my most recent work-in-progress article [[./20160305-android-chicken-scheme-toolchain.html][Chicken scheme Android toolchain]]

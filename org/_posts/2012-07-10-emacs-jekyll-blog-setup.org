@@ -2,7 +2,7 @@
 #+subtitle: A static website based on Mobile jQuery
 #+excerpt: Managing a website using Org-Mode and Liquid templating
 #+categories: jekyll emacs
-#+SETUPFILE: ~/www/org-html-themes/setup/theme-readtheorg.setup
+#+SETUPFILE: ~/www/absrnd/templates/absrnd-1.setup
 
 * Why create a static website?
 
@@ -145,7 +145,6 @@ subtitle: A static website based on Mobile jQuery
 excerpt: Managing a website using SVN, Emacs and Jekyll.
 ---
 #+END_HTML
-#+END_EXAMPLE
 
 * Mobile jQuery templates
 

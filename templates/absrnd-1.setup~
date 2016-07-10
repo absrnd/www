@@ -1,0 +1,26 @@
+# -*- mode: org; -*-
+# absrnd org-mode HTML export theme. Using marx css template:
+# CDN href="https://cdn.rawgit.com/mblode/marx/master/css/marx.min.css"
+# However, local copy is here:
+# ~/www/absrnd/public_html/media/css/marx.min.css
+#
+# [ISSUE_01]
+# using /media/css/marx.min.css for CSS address will only work
+# for level-0 pages, Level 1 will need differnt setup file or
+# will need to find out how to reference the root path for export.
+#
+
+#+OPTIONS: html-link-use-abs-url:nil html-postamble:auto
+#+OPTIONS: html-preamble:t html-scripts:nil html-style:nil
+#+OPTIONS: html5-fancy:nil tex:t toc:nil
+#+HTML_DOCTYPE: html5
+#+HTML_CONTAINER: main
+#+HTML_LINK_HOME:
+#+HTML_LINK_UP:
+#+HTML_MATHJAX:
+#+HTML_HEAD: <link rel="stylesheet" href="media/css/marx.min.css">
+#+HTML_HEAD: <style type="text/css">#content {padding: 0px 40px;} nav {background: #eee;}</style>
+#+HTML_HEAD_EXTRA:
+#+INFOJS_OPT:
+#+CREATOR: <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.50.2 (<a href="http://orgmode.org">Org</a> mode 8.3.3)
+#+LATEX_HEADER:

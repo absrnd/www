@@ -1,3 +1,4 @@
+#+SETUPFILE: ~/www/absrnd/templates/absrnd-1.setup
 #+TITLE: Creating Android apps using Chicken Scheme
 
 * Objective

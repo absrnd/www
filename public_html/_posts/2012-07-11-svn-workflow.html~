@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- 2016-07-10 Sun 15:47 -->
+<meta  charset="utf-8">
+<meta  name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting started with Subversion.</title>
+<meta  name="generator" content="Org-mode">
+<meta  name="author" content="Stuart">
+<link rel="stylesheet" href="../media/css/marx.min.css">
+<style type="text/css">#content {padding: 0px 40px;} nav {background: #eee;}</style>
+</head>
+<body>
+<div id="preamble" class="status">
+<nav>
+            <a href="#">Home</a>
+            <a href="#">Blog</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+         </nav>
+</div>
+<div id="content">
+<h1 class="title">Getting started with Subversion.
+<br>
+<span class="subtitle">The minimum you need to know.</span>
+</h1>
+<p>
+<a href="http://subversion.apache.org/">Subversion</a> is a wonderful tool for Version Control, but the learning
+curve can be steep, so here is what I consider the minimum number of
+command that you need to get started with SVN. All 4 of them.
+</p>
+
+<main id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1"><span class="section-number-2">1</span> Creating a repository</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+First off, create a repository using the svnadmin command:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">svnadmin create /path/to/repo
+</pre>
+</div>
+</div>
+</main>
+
+<main id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2"><span class="section-number-2">2</span> First-time file import</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+If you have a directory tree of files that you want to get into the
+repository to get started with, use svn import:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #483d8b;">cd</span> /path/to/source
+svn import * file:///path/to/repo
+</pre>
+</div>
+
+<p>
+You then need to check-out the repository that you have just created
+to create a working copy.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">mkdir ~/work
+<span style="color: #483d8b;">cd</span> ~/work
+svn co file:///path/to/repo
+</pre>
+</div>
+</div>
+</main>
+
+<main id="outline-container-orgheadline3" class="outline-2">
+<h2 id="orgheadline3"><span class="section-number-2">3</span> Add multiple files</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+If you have added several files to your working copy and want to add
+them all to the repository, use the following command (from the root
+of the working copy directory)
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">svn add * --force
+</pre>
+</div>
+
+<p>
+Note that this will not check the files into the repository, only note
+that the new files need added.
+</p>
+</div>
+</main>
+
+<main id="outline-container-orgheadline4" class="outline-2">
+<h2 id="orgheadline4"><span class="section-number-2">4</span> Commit files into the repository</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+To commit any changes to the repository, use:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">svn ci
+</pre>
+</div>
+</div>
+</main>
+
+<main id="outline-container-orgheadline5" class="outline-2">
+<h2 id="orgheadline5"><span class="section-number-2">5</span> Autoprop and keyword substitution</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+If you want to use keyword
+expansion then you
+will need to edit the ~/.subversion/config file and switch autoprops
+on and also edit the svn:keyword options for the files you need.
+</p>
+
+<p>
+You will also need to set the keyword property using e.g.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">svn propset svn:keyword Id filename.py
+</pre>
+</div>
+</div>
+</main>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Stuart</p>
+<p class="date">Created: 2016-07-10 Sun 15:47</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

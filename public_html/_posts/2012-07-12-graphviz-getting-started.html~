@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- 2016-07-10 Sun 15:47 -->
+<meta  charset="utf-8">
+<meta  name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting started with Graphviz.</title>
+<meta  name="generator" content="Org-mode">
+<meta  name="author" content="Stuart">
+<link rel="stylesheet" href="../media/css/marx.min.css">
+<style type="text/css">#content {padding: 0px 40px;} nav {background: #eee;}</style>
+</head>
+<body>
+<div id="preamble" class="status">
+<nav>
+            <a href="#">Home</a>
+            <a href="#">Blog</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+         </nav>
+</div>
+<div id="content">
+<h1 class="title">Getting started with Graphviz.
+<br>
+<span class="subtitle">Diagrams with Emacs, graphviz and org-babel.</span>
+</h1>
+
+<main id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1"><span class="section-number-2">1</span> Configuration</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+First, Install graphviz using (on Ubuntu 11.10)
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">sudo apt-get install graphviz
+</pre>
+</div>
+
+<p>
+Next, Download planetUML from <a href="http://plantuml.sourceforge.net/download.html"><a href="http://plantuml.sourceforge.net/download.html">http://plantuml.sourceforge.net/download.html</a></a>
+Save the .jar file into your favourite apps directory, e.g. ~/apps
+</p>
+
+<p>
+Finally, setup .emacs file using the instructions given <a href="http://doc.norang.ca/org-mode.html#OrgBabel">here</a>.
+</p>
+</div>
+</main>
+
+<main id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2"><span class="section-number-2">2</span> Hello World</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Enter the following into an org-mode buffer and then publish (C-c C-e)
+</p>
+
+<pre class="example">
+#+begin_src dot :file helloworld.png :cmdline -Kdot -Tpng
+digraph test123 {
+   a [label="hello"];
+   b [label="world"];
+   a -&gt; b;
+}
+#+end_src
+</pre>
+
+<p>
+Should generate a file helloworld.png that looks like this:
+</p>
+
+
+<div class="figure">
+<p><img src="../media/dia/example1.png" alt="example1.png">
+</p>
+</div>
+</div>
+</main>
+
+<main id="outline-container-orgheadline3" class="outline-2">
+<h2 id="orgheadline3"><span class="section-number-2">3</span> Nodes - shapes, labels and colours</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+There are a number of <a href="http://www.graphviz.org/content/node-shapes">pre-defined shapes</a> - box, circle, rectangle, etc.
+To change a node shape, simple enter shape="type" in the node [attribute] list,
+so for example:
+</p>
+<pre class="example">
+#+begin_src dot :file helloworld.png :cmdline -Kdot -Tpng
+digraph test123 {
+   config [label="config", shape="tab"];
+   source [label="source", shape="folder"];
+   jekyll [label="Jekyll", shape="oval"];
+   site [label="site", shape="folder"];
+   config -&gt; jekyll;
+   source -&gt; jekyll;
+   jekyll -&gt; site;
+}
+#+end_src
+</pre>
+
+<p>
+Which will produce this:
+</p>
+
+
+<div class="figure">
+<p><img src="../media/dia/example2.png" alt="example2.png">
+</p>
+</div>
+
+<p>
+Other useful attributes include style=filled fillcolor=value (Red, Yellow,..)
+</p>
+</div>
+</main>
+
+<main id="outline-container-orgheadline4" class="outline-2">
+<h2 id="orgheadline4"><span class="section-number-2">4</span> Arrows and Connectors</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+The type of edges in a graph are set by the graph type - directed
+(digraph) graphs have edges that have arrows, and undirected (graph)
+have edges that do not have arrows.
+</p>
+
+<p>
+The examples shown above are both digraph - directed graphs - so have
+arrows by default on the edges (which are defined in the source with
+-&gt;). Undirected graphs have edges that are defined in source with &#x2013;
+instead of -&gt;
+</p>
+
+<p>
+By default, directed graphs have edges with arrow-heads on the 'right'
+side of the edge.
+</p>
+
+<p>
+There are a number of <a href="http://www.graphviz.org/content/arrow-shapes">different arrow types</a> that can be defined by
+by using the arrowhead and arrowtail attributes along with the dir attribute.
+</p>
+
+<p>
+dir = 'forward' | 'back'  | 'both' | 'none'
+</p>
+
+<p>
+For example, the following code:
+</p>
+
+<pre class="example">
+#+Begin_src dot :file ../media/dia/example3.png :cmdline -Kdot -Tpng
+digraph example3 {
+   candidate [label="Candidate", shape="rectangle"];
+   reviewer [label="Reviewer", shape="rectangle"];
+   appraisal [label="Appraisal", shape="rectangle"];
+   report [label="Report", shape="rectangle"];
+   candidate -&gt; reviewer [label="invites", arrowhead="crow"]
+   candidate -&gt; appraisal [label="performs", dir="both", arrowhead="crow", arrowtail="crow"]
+   appraisal -&gt; report [label="generates", arrowhead="none"]
+}
+#+end_src
+</pre>
+
+<p>
+Produces the following diagram:
+</p>
+
+
+<div class="figure">
+<p><img src="../media/dia/example3.png" alt="example3.png">
+</p>
+</div>
+</div>
+</main>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Stuart</p>
+<p class="date">Created: 2016-07-10 Sun 15:47</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

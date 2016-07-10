@@ -1,7 +1,7 @@
-#+title: Getting started with Graphviz
-#+subtitle: Diagramming with Emacs, graphviz and org-babel
+#+title: Getting started with Graphviz.
+#+subtitle: Diagrams with Emacs, graphviz and org-babel.
 #+categories: emacs
-#+SETUPFILE: ~/www/org-html-themes/setup/theme-readtheorg.setup
+#+SETUPFILE: ~/www/absrnd/templates/absrnd-1.setup
 
 * Configuration
 
