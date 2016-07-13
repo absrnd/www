@@ -1,0 +1,16 @@
+#+SETUPFILE: ~/www/absrnd/templates/absrnd-1.setup
+#+TITLE: How important is Oil to Scotlands economy?
+
+* Introduction
+
+The political debate in Scotland over the last 30 years has often been framed in terms of
+the opportunities and risks offered by Scotlands use - and perhaps dependence - of oil
+revenuers.
+
+This article sets out to answer the question "How imprtant is oil to the Scottish economy?"
+by considering the size of oil revenues in relation all Scottish government revenues using
+the official GERS (Government Expenditure and Revenue Scotland) figures produced by the UK Government.
+
+* Official UK Government data
+
+The most recent data at the time of writing is the [[http://www.gov.scot/Publications/2016/03/3692][Government Expenditure & Revenue Scotland 2014-15]
