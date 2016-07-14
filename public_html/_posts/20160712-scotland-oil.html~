@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>How important is Oil to Scotland's economy?</title>
-<!-- 2016-07-14 Thu 14:40 -->
+<!-- 2016-07-14 Thu 14:39 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="U-FRONTIER\stuartm" />
@@ -89,7 +89,7 @@
   /*]]>*/-->
 </style>
 <script src="https://d3js.org/d3.v3.min.js"></script>
-<style type="text/css"> body { position: relative; } .node {overflow:hidden; position:absolute; }</style>
+<style type="text/css"> body { position: relative; } .node {overflow:hidden; position:absolute; line-height:12px;}</style>
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -467,7 +467,7 @@ function position() {
 <div id="postamble" class="status">
 <p class="date">Date: 2016-07-12</p>
 <p class="author">Author: U-FRONTIER\stuartm</p>
-<p class="date">Created: 2016-07-14 Thu 14:40</p>
+<p class="date">Created: 2016-07-14 Thu 14:39</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

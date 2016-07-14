@@ -1,8 +1,8 @@
-#+SETUPFILE: ~/projects/www.absrnd.com/templates/absrnd-1.setup
+# + SETUPFILE: ~/projects/www.absrnd.com/templates/absrnd-1.setup
 #+TITLE: How important is Oil to Scotland's economy?
 #+DATE: 2016-07-12
 #+HTML_HEAD: <script src="https://d3js.org/d3.v3.min.js"></script>
-#+HTML_HEAD: <style type="text/css"> body { position: relative; }</style>
+#+HTML_HEAD: <style type="text/css"> body { position: relative; } .node {overflow:hidden; position:absolute; }</style>
 
 * Document tracking
 
@@ -68,48 +68,56 @@ So lets leave the debate on how 'accurate' the numbers are, and get on and use t
 <script>
 var tree = {
     name: "tree",
+    parent: "null",
     children: [
-      { name: "Income tax", size: 11735},
-      { name: "Corporation tax", size: 2920},
-      { name: "Capital gains tax", size: 293},
-      { name: "Other taxes on income and wealth", size: 215},
-      { name: "National insurance contributions", size: 8969},
-      { name: "VAT", size: 10734},
-      { name: "Fuel duties", size: 2294},
-      { name: "Stamp duties", size: 735},
-      { name: "Tobacco duties", size: 1211},
-      { name: "Alcohol duties", size: 961},
-      { name: "Betting and gaming duties", size: 185},
-      { name: "Air passenger duty", size: 309},
-      { name: "Insurance premium tax", size: 206},
-      { name: "Landfill tax", size: 147},
-      { name: "Climate change levy", size: 163},
-      { name: "Aggregates levy", size: 54},
-      { name: "Inheritance tax", size: 229},
-      { name: "Vehicle excise duty", size: 456},
-      { name: "Non-domestic rates1", size: 1915},
-      { name: "Council tax", size: 2008},
-      { name: "Other taxes, royalties and adjustments2", size: 1451},
-      { name: "Interest and dividends", size: 374},
-      { name: "Gross operating surplus", size: 3685},
-      { name: "Rent and other current transfers", size: 390},
-      { name: "North Sea (Geographical)", size: 1804}
-    ]
+    {
+      name: "all",
+      parent: "tree",
+      children: [
+      { name: "Income tax", value: 11735},
+      { name: "Corporation tax", value: 2920},
+      { name: "Capital gains tax", value: 293},
+      { name: "Other taxes on income and wealth", value: 215},
+      { name: "National insurance contributions", value: 8969},
+      { name: "VAT", value: 10734},
+      { name: "Fuel duties", value: 2294},
+      { name: "Stamp duties", value: 735},
+      { name: "Tobacco duties", value: 1211},
+      { name: "Alcohol duties", value: 961},
+      { name: "Betting and gaming duties", value: 185},
+      { name: "Air passenger duty", value: 309},
+      { name: "Insurance premium tax", value: 206},
+      { name: "Landfill tax", value: 147},
+      { name: "Climate change levy", value: 163},
+      { name: "Aggregates levy", value: 54},
+      { name: "Inheritance tax", value: 229},
+      { name: "Vehicle excise duty", value: 456},
+      { name: "Non-domestic rates1", value: 1915},
+      { name: "Council tax", value: 2008},
+      { name: "Other taxes, royalties and adjustments2", value: 1451},
+      { name: "Interest and dividends", value: 374},
+      { name: "Gross operating surplus", value: 3685},
+      { name: "Rent and other current transfers", value: 390},
+      { name: "North Sea (Geographical)", value: 1804}
+      ]
+    }]
+    
 };
 
-var oldwidth = innerWidth-40,
-    oldheight = innerHeight-40;
 
-var width = 600,
-    height = 200,
+//var width = 600,
+//    height = 200
+
+var width = innerWidth-40,
+    height = innerHeight-40,
     color = d3.scale.category20c(),
     div = d3.select("#revenuetree").append("div")
        .style("position", "relative");
 
 var treemap = d3.layout.treemap()
-    .size([width, height])
-    .sticky(true)
-    .value(function(d) { return d.size; });
+    .size([width, height]);
+//    .sticky(true);
+//    .value(function(d) { return d.size; });
 
 var node = div.datum(tree).selectAll(".node")
       .data(treemap.nodes)
