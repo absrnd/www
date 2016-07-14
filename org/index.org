@@ -1,20 +1,7 @@
-#+SETUPFILE: ~/www/absrnd/templates/absrnd-0.setup
-#+TITLE: ;; blog by Stuart Malcolm
-#+SUBTITLE: (program (graphics data))
+#+SETUPFILE: ~/projects/www.absrnd.com/templates/absrnd-0.setup
+#+TITLE: Programming : Data -> Graphics
 
-#+begin_src emacs-lisp 
-(defun create-links ()
-  (let ((post-list (directory-files "~/www/absrnd/org/_posts" nil "org$"))
-	(result))
-    (dolist (post post-list result)
-      (setq result (concat result
-			   (concat "[["
-				   "./_posts/" post ".html]"
-				   "[" post "]]"))))))
-(create-links)
-#+end_src
-
-* Blog posts
+* Blog posts from previous version of this site
 
 [PROGRAMMING] [[./20160305-android-chicken-scheme-toolchain.html][Chicken scheme Android toolchain]] 
 
@@ -26,6 +13,5 @@
 
 [META] [[file:./_posts/2012-07-10-emacs-jekyll-blog-setup.org][Create a blog with Emacs and Jekyll]]
 
-
-
-
+** TODO Migtate Pocket links to this site
+** TODO add new page of data sources

@@ -2,7 +2,7 @@
 #+subtitle: A static website based on Mobile jQuery
 #+excerpt: Managing a website using Org-Mode and Liquid templating
 #+categories: jekyll emacs
-#+SETUPFILE: ~/www/absrnd/templates/absrnd-1.setup
+#+SETUPFILE: ~/projects/www.absrnd.com/templates/absrnd-1.setup
 
 * Why create a static website?
 

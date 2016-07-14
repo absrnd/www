@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- 2016-07-10 Sun 15:47 -->
+<!-- 2016-07-10 Sun 17:32 -->
 <meta  charset="utf-8">
 <meta  name="viewport" content="width=device-width, initial-scale=1">
 <title>Getting started with Subversion.</title>
@@ -130,7 +130,7 @@ You will also need to set the keyword property using e.g.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Stuart</p>
-<p class="date">Created: 2016-07-10 Sun 15:47</p>
+<p class="date">Created: 2016-07-10 Sun 17:32</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

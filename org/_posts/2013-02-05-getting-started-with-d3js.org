@@ -3,7 +3,7 @@
 #+subtitle: Data visualization with javascript
 #+excerpt: Interactive and animated data 
 #+categories: d3js
-#+SETUPFILE: ~/www/absrnd/templates/absrnd-1.setup
+#+SETUPFILE: ~/projects/www.absrnd.com/templates/absrnd-1.setup
 #+HTML_HEAD: <script src="https://d3js.org/d3.v3.min.js"></script>
 
 * Data visualization using D3.js

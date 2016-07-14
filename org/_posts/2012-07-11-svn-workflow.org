@@ -2,7 +2,7 @@
 #+subtitle: The minimum you need to know.
 #+excerpt: Using svn from the command line
 #+categories: svn
-#+SETUPFILE: ~/www/absrnd/templates/absrnd-1.setup
+#+SETUPFILE: ~/projects/www.absrnd.com/templates/absrnd-1.setup
 
 [[http://subversion.apache.org/][Subversion]] is a wonderful tool for Version Control, but the learning
 curve can be steep, so here is what I consider the minimum number of

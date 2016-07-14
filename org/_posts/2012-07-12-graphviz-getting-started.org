@@ -1,7 +1,7 @@
 #+title: Getting started with Graphviz.
 #+subtitle: Diagrams with Emacs, graphviz and org-babel.
 #+categories: emacs
-#+SETUPFILE: ~/www/absrnd/templates/absrnd-1.setup
+#+SETUPFILE: ~/projects/www.absrnd.com/templates/absrnd-1.setup
 
 * Configuration
 
